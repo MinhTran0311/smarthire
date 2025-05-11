@@ -5,8 +5,11 @@ import { Box, Container, Typography, Button, Paper } from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SpeedIcon from "@mui/icons-material/Speed";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -17,44 +20,28 @@ export default function Home() {
     >
       <Container maxWidth="lg">
         {/* Hero Section */}
-        <Box sx={{ textAlign: "center", mb: 8 }}>
-          <Typography
-            variant="h2"
-            component="h1"
-            sx={{
-              fontWeight: 700,
-              color: "#2c3e50",
-              mb: 2,
-              fontSize: { xs: "2.5rem", md: "3.5rem" },
-            }}
-          >
-            Smart Hire
+        <Box
+          sx={{
+            mt: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h2" component="h1" gutterBottom>
+            {t("app.name")}
           </Typography>
-          <Typography
-            variant="h5"
-            sx={{
-              color: "#34495e",
-              mb: 4,
-              maxWidth: "800px",
-              mx: "auto",
-            }}
-          >
-            Revolutionizing the hiring process with AI-powered candidate
-            matching
+          <Typography variant="h5" color="text.secondary" paragraph>
+            {t("app.description")}
           </Typography>
           <Button
             variant="contained"
+            color="primary"
             size="large"
-            sx={{
-              bgcolor: "#3498db",
-              "&:hover": {
-                bgcolor: "#2980b9",
-              },
-              px: 4,
-              py: 1.5,
-            }}
+            sx={{ mt: 4 }}
           >
-            Get Started
+            {t("common.getStarted")}
           </Button>
         </Box>
 
@@ -87,11 +74,10 @@ export default function Home() {
           >
             <WorkIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
             <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
-              Smart Matching
+              {t("features.smartMatching.title")}
             </Typography>
             <Typography color="text.secondary">
-              AI-powered candidate matching based on job requirements and
-              company culture
+              {t("features.smartMatching.description")}
             </Typography>
           </Paper>
 
@@ -112,10 +98,10 @@ export default function Home() {
           >
             <AutoAwesomeIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
             <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
-              AI Insights
+              {t("features.aiInsights.title")}
             </Typography>
             <Typography color="text.secondary">
-              Get detailed insights and recommendations for each candidate
+              {t("features.aiInsights.description")}
             </Typography>
           </Paper>
 
@@ -136,10 +122,10 @@ export default function Home() {
           >
             <SpeedIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
             <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
-              Streamlined Process
+              {t("features.streamlinedProcess.title")}
             </Typography>
             <Typography color="text.secondary">
-              Automate and optimize your hiring workflow for better efficiency
+              {t("features.streamlinedProcess.description")}
             </Typography>
           </Paper>
         </Box>

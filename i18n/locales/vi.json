@@ -1,0 +1,22 @@
+{
+  "app.name": "Smart Hire",
+  "app.description": "Cách mạng hóa quy trình tuyển dụng với công nghệ AI",
+  "navigation.features": "Tính năng",
+  "navigation.about": "Về chúng tôi",
+  "navigation.login": "Đăng nhập",
+  "features.smartMatching.title": "Kết nối thông minh",
+  "features.smartMatching.description": "Kết nối ứng viên dựa trên yêu cầu công việc và văn hóa công ty",
+  "features.aiInsights.title": "Phân tích AI",
+  "features.aiInsights.description": "Nhận thông tin chi tiết và đề xuất cho từng ứng viên",
+  "features.streamlinedProcess.title": "Quy trình tối ưu",
+  "features.streamlinedProcess.description": "Tự động hóa và tối ưu quy trình tuyển dụng để hiệu quả hơn",
+  "about.mission.title": "Sứ mệnh của chúng tôi",
+  "about.mission.description": "Tại Smart Hire, chúng tôi đang cách mạng hóa quy trình tuyển dụng bằng cách tận dụng sức mạnh của trí tuệ nhân tạo. Sứ mệnh của chúng tôi là làm cho việc tuyển dụng hiệu quả, công bằng và hiệu quả hơn cho cả nhà tuyển dụng và người tìm việc.",
+  "about.vision.title": "Tầm nhìn của chúng tôi",
+  "about.vision.description": "Chúng tôi hình dung một tương lai nơi các công cụ được hỗ trợ bởi AI giúp tạo ra những kết nối tốt hơn giữa công ty và ứng viên, dẫn đến những sự nghiệp thành công và viên mãn hơn.",
+  "about.team.title": "Đội ngũ của chúng tôi",
+  "about.team.description": "Đội ngũ của chúng tôi bao gồm các chuyên gia về AI, nhân sự và phát triển phần mềm, cùng nhau tạo ra các giải pháp đổi mới cho những thách thức tuyển dụng hiện đại.",
+  "common.getStarted": "Bắt đầu",
+  "common.language": "Ngôn ngữ",
+  "common.forgotPassword": "Quên mật khẩu?"
+}
