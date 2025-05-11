@@ -1,12 +1,24 @@
 "use client";
 
-import { AppBar, Toolbar, Button, Box, Container } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Box,
+  Container,
+  useTheme,
+} from "@mui/material";
 import { useTranslation } from "../../hooks/useTranslation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
   const { t } = useTranslation();
+  const pathname = usePathname();
+  const theme = useTheme();
+
+  const isActive = (path: string) => pathname === path;
 
   return (
     <AppBar position="static" color="default" elevation={1}>
@@ -24,6 +36,7 @@ export default function Navigation() {
                   textTransform: "none",
                   fontSize: "1.2rem",
                   fontWeight: "bold",
+                  color: isActive("/") ? theme.palette.primary.main : "inherit",
                 }}
               >
                 {t("app.name")}
@@ -35,7 +48,20 @@ export default function Navigation() {
                 passHref
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <Button color="inherit" sx={{ textTransform: "none" }}>
+                <Button
+                  color="inherit"
+                  sx={{
+                    textTransform: "none",
+                    color: isActive("/features")
+                      ? theme.palette.primary.main
+                      : "inherit",
+                    fontWeight: isActive("/features") ? "bold" : "normal",
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   {t("navigation.features")}
                 </Button>
               </Link>
@@ -44,7 +70,20 @@ export default function Navigation() {
                 passHref
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <Button color="inherit" sx={{ textTransform: "none" }}>
+                <Button
+                  color="inherit"
+                  sx={{
+                    textTransform: "none",
+                    color: isActive("/about")
+                      ? theme.palette.primary.main
+                      : "inherit",
+                    fontWeight: isActive("/about") ? "bold" : "normal",
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                      color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   {t("navigation.about")}
                 </Button>
               </Link>

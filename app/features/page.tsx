@@ -1,37 +1,59 @@
 "use client";
 
-import { Box, Container, Typography, Paper } from "@mui/material";
+import { Box, Container, Typography, Paper, useTheme } from "@mui/material";
 import { useTranslation } from "../../hooks/useTranslation";
-import WorkIcon from "@mui/icons-material/Work";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import SpeedIcon from "@mui/icons-material/Speed";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PeopleIcon from "@mui/icons-material/People";
+import { useRouter } from "next/navigation";
 
 export default function Features() {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const router = useRouter();
 
   const features = [
     {
-      icon: <WorkIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />,
-      title: t("features.smartMatching.title"),
-      description: t("features.smartMatching.description"),
+      icon: (
+        <UploadFileIcon
+          sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+        />
+      ),
+      title: t("features.uploadCV.title"),
+      description: t("features.uploadCV.description"),
+      path: "/features/upload-cv",
     },
     {
-      icon: <AutoAwesomeIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />,
-      title: t("features.aiInsights.title"),
-      description: t("features.aiInsights.description"),
+      icon: (
+        <DescriptionIcon
+          sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+        />
+      ),
+      title: t("features.uploadJob.title"),
+      description: t("features.uploadJob.description"),
+      path: "/features/upload-job",
     },
     {
-      icon: <SpeedIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />,
-      title: t("features.streamlinedProcess.title"),
-      description: t("features.streamlinedProcess.description"),
+      icon: (
+        <PeopleIcon
+          sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+        />
+      ),
+      title: t("features.candidates.title"),
+      description: t("features.candidates.description"),
+      path: "/features/candidates",
     },
   ];
+
+  const handleFeatureClick = (path: string) => {
+    router.push(path);
+  };
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)",
+        background: theme.palette.background.default,
         py: 8,
       }}
     >
@@ -68,13 +90,19 @@ export default function Features() {
                   alignItems: "center",
                   textAlign: "center",
                   transition: "transform 0.2s",
+                  cursor: "pointer",
                   "&:hover": {
                     transform: "translateY(-8px)",
+                    backgroundColor: theme.palette.background.paper,
                   },
                 }}
+                onClick={() => handleFeatureClick(feature.path)}
               >
                 {feature.icon}
-                <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
+                <Typography
+                  variant="h5"
+                  sx={{ mb: 2, color: theme.palette.secondary.main }}
+                >
                   {feature.title}
                 </Typography>
                 <Typography color="text.secondary">

@@ -1,20 +1,34 @@
 "use client";
 
 import React from "react";
-import { Box, Container, Typography, Button, Paper } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Paper,
+  useTheme,
+} from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { useTranslation } from "../hooks/useTranslation";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push("/features");
+  };
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)",
+        background: theme.palette.background.default,
         py: 8,
       }}
     >
@@ -40,6 +54,7 @@ export default function Home() {
             color="primary"
             size="large"
             sx={{ mt: 4 }}
+            onClick={handleGetStarted}
           >
             {t("common.getStarted")}
           </Button>
@@ -72,8 +87,13 @@ export default function Home() {
               },
             }}
           >
-            <WorkIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
-            <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
+            <WorkIcon
+              sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+            />
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, color: theme.palette.secondary.main }}
+            >
               {t("features.smartMatching.title")}
             </Typography>
             <Typography color="text.secondary">
@@ -96,8 +116,13 @@ export default function Home() {
               },
             }}
           >
-            <AutoAwesomeIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
-            <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
+            <AutoAwesomeIcon
+              sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+            />
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, color: theme.palette.secondary.main }}
+            >
               {t("features.aiInsights.title")}
             </Typography>
             <Typography color="text.secondary">
@@ -120,8 +145,13 @@ export default function Home() {
               },
             }}
           >
-            <SpeedIcon sx={{ fontSize: 60, color: "#3498db", mb: 2 }} />
-            <Typography variant="h5" sx={{ mb: 2, color: "#2c3e50" }}>
+            <SpeedIcon
+              sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+            />
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, color: theme.palette.secondary.main }}
+            >
               {t("features.streamlinedProcess.title")}
             </Typography>
             <Typography color="text.secondary">
