@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "../../../hooks/useTranslation";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
 
 export default function UploadCV() {
   const { t } = useTranslation();
@@ -80,6 +81,7 @@ export default function UploadCV() {
           </Typography>
         </Paper>
       </Container>
+      <FeatureNavigation />
     </Box>
   );
 }

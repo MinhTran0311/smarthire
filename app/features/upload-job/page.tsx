@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "../../../hooks/useTranslation";
 import DescriptionIcon from "@mui/icons-material/Description";
+import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
 
 export default function UploadJob() {
   const { t } = useTranslation();
@@ -112,6 +113,7 @@ export default function UploadJob() {
           </Box>
         </Paper>
       </Container>
+      <FeatureNavigation />
     </Box>
   );
 }

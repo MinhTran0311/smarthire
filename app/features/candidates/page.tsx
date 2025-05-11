@@ -15,6 +15,7 @@ import {
 import { useTranslation } from "../../../hooks/useTranslation";
 import PeopleIcon from "@mui/icons-material/People";
 import SearchIcon from "@mui/icons-material/Search";
+import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
 
 export default function Candidates() {
   const { t } = useTranslation();
@@ -179,6 +180,7 @@ export default function Candidates() {
           </Box>
         </Paper>
       </Container>
+      <FeatureNavigation />
     </Box>
   );
 }

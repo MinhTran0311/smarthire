@@ -18,7 +18,12 @@ export default function Navigation() {
   const pathname = usePathname();
   const theme = useTheme();
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/features") {
+      return pathname === "/features" || pathname.startsWith("/features/");
+    }
+    return pathname === path;
+  };
 
   return (
     <AppBar position="static" color="default" elevation={1}>
