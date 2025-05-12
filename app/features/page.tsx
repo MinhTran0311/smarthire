@@ -21,7 +21,7 @@ export default function Features() {
       ),
       title: t("features.uploadCV.title"),
       description: t("features.uploadCV.description"),
-      path: "/features/upload-cv",
+      path: "/features/upload-profiles",
     },
     {
       icon: (

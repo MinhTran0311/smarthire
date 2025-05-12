@@ -15,7 +15,7 @@ export default function FeatureNavigation() {
 
   const features = [
     {
-      path: "/features/upload-cv",
+      path: "/features/upload-profiles",
       icon: <UploadFileIcon />,
       title: t("features.uploadCV.title"),
     },
