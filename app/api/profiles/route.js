@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   processAllProfiles,
   processUploadedPDF,
-} from "../../../backend/services/profiles/utils";
+} from "../../../backend/services/profiles/profileExtraction";
 
 export async function GET() {
   try {
