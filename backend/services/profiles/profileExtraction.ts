@@ -1,16 +1,17 @@
 import fs from "fs/promises";
 import path from "path";
-import parser from "pdf-parse";
+import pdfParse from "pdf-parse";
+import { Profile } from "../../models/profile";
+import { extractProfileFromText } from "../llm/llmProcessing";
 
-interface Profile {
-  filename: string;
-  content: string;
-}
-
+/**
+ * Extract text content from a PDF at a given path.
+ * @param pdfPath Absolute path to the PDF file.
+ */
 export async function extractTextFromPDF(pdfPath: string): Promise<string> {
   try {
     const dataBuffer = await fs.readFile(pdfPath);
-    const data = await parser(dataBuffer);
+    const data = await pdfParse(dataBuffer);
     return data.text;
   } catch (error) {
     console.error(`Error extracting text from PDF ${pdfPath}:`, error);
@@ -18,6 +19,9 @@ export async function extractTextFromPDF(pdfPath: string): Promise<string> {
   }
 }
 
+/**
+ * Process all PDF files in the backend/data directory.
+ */
 export async function processAllProfiles(): Promise<Profile[]> {
   try {
     const dataDir = path.resolve(process.cwd(), "backend", "data");
@@ -35,7 +39,9 @@ export async function processAllProfiles(): Promise<Profile[]> {
       pdfFiles.map(async (filename): Promise<Profile> => {
         const filePath = path.join(dataDir, filename);
         const content = await extractTextFromPDF(filePath);
-        return { filename, content };
+        const profile = await extractProfileFromText(content);
+        profile.pathToResume = filePath;
+        return profile;
       })
     );
 
@@ -46,16 +52,18 @@ export async function processAllProfiles(): Promise<Profile[]> {
   }
 }
 
+/**
+ * Process a PDF from an uploaded buffer (e.g., via form submission).
+ */
 export async function processUploadedPDF(
   fileBuffer: Buffer,
   filename: string
 ): Promise<Profile> {
   try {
-    const data = await parser(fileBuffer);
-    return {
-      filename,
-      content: data.text,
-    };
+    const data = await pdfParse(fileBuffer);
+    const profile = await extractProfileFromText(data.text);
+    profile.pathToResume = filename;
+    return profile;
   } catch (error) {
     console.error(`Error processing uploaded PDF ${filename}:`, error);
     throw error;
