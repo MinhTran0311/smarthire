@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { JobPost } from "../../backend/models/jobPost";
 import { useTranslation } from "../../hooks/useTranslation";
 
@@ -9,7 +9,6 @@ interface JobDescriptionCardProps {
 export default function JobDescriptionCard({
   jobPost,
 }: JobDescriptionCardProps) {
-  const theme = useTheme();
   const { t } = useTranslation();
 
   return (

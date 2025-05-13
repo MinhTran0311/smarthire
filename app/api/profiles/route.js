@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import {
-  processAllProfiles,
+  // processAllProfiles,
   processUploadedPDF,
 } from "../../../backend/services/profiles/profileExtraction";
 
 export async function GET() {
   try {
-    const profiles = await processAllProfiles();
+    // const profiles = await processAllProfiles();
     return NextResponse.json({
       success: true,
       // data: profiles,

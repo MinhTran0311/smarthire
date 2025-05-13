@@ -1,7 +1,9 @@
 export interface Education {
   school: string;
-  major: string;
-  graduationYear: number;
+  institution: string;
+  year: number;
+  degree: string;
+  graduationYear: string;
 }
 
 export interface Experience {

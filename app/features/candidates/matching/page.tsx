@@ -5,23 +5,13 @@ import {
   Box,
   Container,
   Typography,
-  Paper,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  IconButton,
   useTheme,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useRouter } from "next/navigation";
 import { useData } from "../../../contexts/DataContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import JobDescriptionCard from "@/components/jobs/JobDescriptionCard";
-import CandidateCard from "@/components/candidates/CandidateCard";
+import { ProfileSelection } from "@/components/profile/ProfileSelection";
 
 export default function MatchingCandidates() {
   const { t } = useTranslation();
@@ -83,7 +73,6 @@ export default function MatchingCandidates() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
         background: theme.palette.background.default,
         py: 4,
       }}
@@ -96,65 +85,13 @@ export default function MatchingCandidates() {
             gap: 4,
           }}
         >
-          {/* Job Post Information */}
           {currentJobPost && <JobDescriptionCard jobPost={currentJobPost} />}
 
-          {/* Candidate Card */}
-          <Paper sx={{ p: 3, position: "relative" }}>
-            <CandidateCard
-              profile={currentCandidate}
-              onShowMore={handleViewProfile}
-            />
+          <ProfileSelection candidate={currentCandidate} onViewProfile={handleViewProfile} onAccept={handleAccept} onReject={handleReject}/>
 
-            {/* Action Buttons */}
-            <Box
-              sx={{ display: "flex", justifyContent: "center", mt: 4, gap: 2 }}
-            >
-              <IconButton
-                color="error"
-                size="large"
-                onClick={handleReject}
-                sx={{ bgcolor: "error.light" }}
-                title={t("actions.reject")}
-              >
-                <CloseIcon />
-              </IconButton>
-              <Button
-                variant="contained"
-                startIcon={<VisibilityIcon />}
-                onClick={handleViewProfile}
-              >
-                {t("actions.viewDetails")}
-              </Button>
-              <IconButton
-                color="success"
-                size="large"
-                onClick={handleAccept}
-                sx={{ bgcolor: "success.light" }}
-                title={t("actions.accept")}
-              >
-                <CheckIcon />
-              </IconButton>
-            </Box>
-          </Paper>
         </Box>
       </Container>
-
-      {/* Confirmation Dialog */}
-      <Dialog
-        open={showConfirmDialog}
-        onClose={() => setShowConfirmDialog(false)}
-      >
-        <DialogTitle>{t("matching.reviewTitle")}</DialogTitle>
-        <DialogContent>
-          <Typography>{t("matching.reviewDescription")}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="primary" onClick={handleStart}>
-            {t("actions.letDiveIn")}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
+    
   );
 }

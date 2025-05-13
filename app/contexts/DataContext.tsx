@@ -4,7 +4,6 @@ import {
   ReactNode,
   useContext,
   useEffect,
-  useReducer,
 } from "react";
 import { Profile } from "../../backend/models/profile";
 import { JobPost } from "../../backend/models/jobPost";

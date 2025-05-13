@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardContent,
+  Chip,
   IconButton,
   Typography,
   useTheme,
@@ -71,20 +72,8 @@ export default function CandidateCard({
               mt: 1,
             }}
           >
-            {profile.skills.map((skill: string) => (
-              <Typography
-                key={skill}
-                variant="body2"
-                sx={{
-                  bgcolor: theme.palette.primary.light,
-                  color: theme.palette.primary.contrastText,
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                }}
-              >
-                {skill}
-              </Typography>
+            {profile.skills.map((skill: string, index: number) => (
+              <Chip key={index} label={skill} size="small" />
             ))}
           </Box>
         </Box>

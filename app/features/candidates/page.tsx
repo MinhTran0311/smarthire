@@ -15,17 +15,19 @@ import FeatureNavigation from "../../../components/navigation/FeatureNavigation"
 import { useData } from "@/app/contexts/DataContext";
 import CandidateCard from "@/components/candidates/CandidateCard";
 import { Profile } from "../../../backend/models/profile";
+import { useRouter } from "next/navigation";
 
 export default function Candidates() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
+  
   const {
     state: { profiles, isLoading: loading, error },
   } = useData();
 
   const handleShowMore = (profileId: string) => {
-    // TODO: Implement show more functionality
-    console.log("Show more for profile:", profileId);
+    router.push(`/features/candidates/${profileId}`);
   };
 
   if (loading) {
@@ -128,7 +130,7 @@ export default function Candidates() {
               <CandidateCard
                 key={profile.name}
                 profile={profile}
-                onShowMore={() => handleShowMore(profile.name)}
+                onShowMore={() => handleShowMore(profile.id)}
               />
             ))}
           </Box>
