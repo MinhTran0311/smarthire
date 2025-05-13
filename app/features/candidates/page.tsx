@@ -6,45 +6,54 @@ import {
   Typography,
   Paper,
   TextField,
-  Grid,
-  Card,
-  CardContent,
-  Avatar,
+  CircularProgress,
   useTheme,
 } from "@mui/material";
-import { useTranslation } from "../../../hooks/useTranslation";
-import PeopleIcon from "@mui/icons-material/People";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTranslation } from "../../../hooks/useTranslation";
 import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
+import { useData } from "@/app/contexts/DataContext";
+import CandidateCard from "@/components/candidates/CandidateCard";
 
 export default function Candidates() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { profiles, loading, error } = useData();
 
-  // Mock data for demonstration
-  const candidates = [
-    {
-      id: 1,
-      name: "John Doe",
-      title: "Senior Software Engineer",
-      experience: "8 years",
-      skills: ["React", "Node.js", "TypeScript"],
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      title: "Product Manager",
-      experience: "5 years",
-      skills: ["Agile", "Product Strategy", "UX"],
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      title: "Full Stack Developer",
-      experience: "6 years",
-      skills: ["Python", "Django", "React"],
-    },
-  ];
+  const handleShowMore = (profileId: string) => {
+    // TODO: Implement show more functionality
+    console.log("Show more for profile:", profileId);
+  };
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -75,7 +84,7 @@ export default function Candidates() {
           <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
             <TextField
               fullWidth
-              placeholder="Search candidates..."
+              placeholder={t("features.candidates.searchPlaceholder")}
               variant="outlined"
               InputProps={{
                 startAdornment: (
@@ -85,17 +94,23 @@ export default function Candidates() {
             />
             <TextField
               select
-              label="Experience"
+              label={t("features.candidates.experienceFilter")}
               variant="outlined"
               sx={{ minWidth: 200 }}
               SelectProps={{
                 native: true,
               }}
             >
-              <option value="">Any</option>
-              <option value="0-2">0-2 years</option>
-              <option value="3-5">3-5 years</option>
-              <option value="5+">5+ years</option>
+              <option value="">{t("features.candidates.anyExperience")}</option>
+              <option value="0-2">
+                {t("features.candidates.experienceRange.0-2")}
+              </option>
+              <option value="3-5">
+                {t("features.candidates.experienceRange.3-5")}
+              </option>
+              <option value="5+">
+                {t("features.candidates.experienceRange.5+")}
+              </option>
             </TextField>
           </Box>
 
@@ -106,76 +121,12 @@ export default function Candidates() {
               gap: 3,
             }}
           >
-            {candidates.map((candidate) => (
-              <Card
-                key={candidate.id}
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  transition: "transform 0.2s",
-                  "&:hover": {
-                    transform: "translateY(-4px)",
-                  },
-                }}
-              >
-                <CardContent>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Avatar
-                      sx={{
-                        bgcolor: theme.palette.primary.main,
-                        width: 56,
-                        height: 56,
-                        mr: 2,
-                      }}
-                    >
-                      {candidate.name.charAt(0)}
-                    </Avatar>
-                    <Box>
-                      <Typography variant="h6">{candidate.name}</Typography>
-                      <Typography color="text.secondary">
-                        {candidate.title}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Experience: {candidate.experience}
-                  </Typography>
-                  <Box sx={{ mt: 2 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Skills:
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 1,
-                        mt: 1,
-                      }}
-                    >
-                      {candidate.skills.map((skill) => (
-                        <Typography
-                          key={skill}
-                          variant="body2"
-                          sx={{
-                            bgcolor: theme.palette.primary.light,
-                            color: theme.palette.primary.contrastText,
-                            px: 1,
-                            py: 0.5,
-                            borderRadius: 1,
-                          }}
-                        >
-                          {skill}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
+            {profiles.map((profile) => (
+              <CandidateCard
+                key={profile.name}
+                profile={profile}
+                onShowMore={() => handleShowMore(profile.name)}
+              />
             ))}
           </Box>
         </Paper>

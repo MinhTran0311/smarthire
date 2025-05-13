@@ -35,32 +35,19 @@ export default function About() {
           }}
         >
           <Typography variant="h5" gutterBottom color="primary">
-            Our Mission
+            {t("about.mission.title")}
           </Typography>
-          <Typography paragraph>
-            At Smart Hire, we're revolutionizing the hiring process by
-            leveraging the power of artificial intelligence. Our mission is to
-            make hiring more efficient, fair, and effective for both employers
-            and job seekers.
-          </Typography>
+          <Typography paragraph>{t("about.mission.description")}</Typography>
 
           <Typography variant="h5" gutterBottom color="primary" sx={{ mt: 4 }}>
-            Our Vision
+            {t("about.vision.title")}
           </Typography>
-          <Typography paragraph>
-            We envision a future where AI-powered tools help create better
-            matches between companies and candidates, leading to more successful
-            and fulfilling careers.
-          </Typography>
+          <Typography paragraph>{t("about.vision.description")}</Typography>
 
           <Typography variant="h5" gutterBottom color="primary" sx={{ mt: 4 }}>
-            Our Team
+            {t("about.team.title")}
           </Typography>
-          <Typography paragraph>
-            Our team consists of experts in AI, HR, and software development,
-            working together to create innovative solutions for modern hiring
-            challenges.
-          </Typography>
+          <Typography paragraph>{t("about.team.description")}</Typography>
         </Paper>
       </Container>
     </Box>

@@ -1,26 +1,45 @@
 "use client";
 
+import { useData } from "@/app/contexts/DataContext";
+import DescriptionIcon from "@mui/icons-material/Description";
 import {
   Box,
+  Button,
   Container,
-  Typography,
   Paper,
   TextField,
-  Button,
+  Typography,
   useTheme,
 } from "@mui/material";
-import { useTranslation } from "../../../hooks/useTranslation";
-import DescriptionIcon from "@mui/icons-material/Description";
+import { JobPost } from "../../../backend/models/jobPost";
 import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 export default function UploadJob() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { dispatch } = useData();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Implement form submission logic
-    console.log("Form submitted");
+    const formData = new FormData(event.currentTarget);
+
+    const newJobPost: JobPost = {
+      id: crypto.randomUUID(),
+      title: formData.get("title") as string,
+      department: formData.get("department") as string,
+      location: formData.get("location") as string,
+      description: formData.get("description") as string,
+      requirements: formData.get("requirements") as string,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    // Add the new job post to the context
+    dispatch({ type: "ADD_JOB_POST", payload: newJobPost });
+
+    // TODO: Implement API call to save the job post
+    console.log("New job post:", newJobPost);
   };
 
   return (
@@ -64,28 +83,32 @@ export default function UploadJob() {
           <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
             <TextField
               fullWidth
-              label="Job Title"
+              name="title"
+              label={t("features.uploadJob.form.title")}
               variant="outlined"
               margin="normal"
               required
             />
             <TextField
               fullWidth
-              label="Department"
+              name="department"
+              label={t("features.uploadJob.form.department")}
               variant="outlined"
               margin="normal"
               required
             />
             <TextField
               fullWidth
-              label="Location"
+              name="location"
+              label={t("features.uploadJob.form.location")}
               variant="outlined"
               margin="normal"
               required
             />
             <TextField
               fullWidth
-              label="Job Description"
+              name="description"
+              label={t("features.uploadJob.form.description")}
               variant="outlined"
               margin="normal"
               multiline
@@ -94,7 +117,8 @@ export default function UploadJob() {
             />
             <TextField
               fullWidth
-              label="Requirements"
+              name="requirements"
+              label={t("features.uploadJob.form.requirements")}
               variant="outlined"
               margin="normal"
               multiline
@@ -108,7 +132,7 @@ export default function UploadJob() {
               size="large"
               sx={{ mt: 3 }}
             >
-              Submit Job Description
+              {t("features.uploadJob.form.submit")}
             </Button>
           </Box>
         </Paper>
