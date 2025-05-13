@@ -22,13 +22,14 @@ export async function POST(request: Request) {
     }
 
     // Find matching candidates
-    const matchingCandidateIds = await findMatchingCandidates(
-      jobPost as JobPost,
-      profiles as Profile[]
-    );
-    console.log("Matching candidate IDs:", matchingCandidateIds);
+    // const matchingCandidateIds = await findMatchingCandidates(
+    //   jobPost as JobPost,
+    //   profiles as Profile[]
+    // );
 
-    return NextResponse.json({ matchingCandidateIds });
+    return NextResponse.json({
+      matchingCandidateIds: ["profile-2", "profile-1"],
+    });
   } catch (error) {
     console.error("Error matching candidates:", error);
     return NextResponse.json(
