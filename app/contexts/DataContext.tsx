@@ -13,33 +13,33 @@ import { useImmerReducer } from "use-immer";
 interface DataState {
   profiles: Profile[];
   jobPosts: JobPost[];
-  loading: boolean;
+  matchingCandidates: Record<string, string[]>; // jobId -> candidateIds
+  isLoading: boolean;
   error: string | null;
 }
 
 type DataAction =
-  | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: string | null }
   | { type: "SET_PROFILES"; payload: Profile[] }
   | { type: "ADD_PROFILE"; payload: Profile }
   | { type: "SET_JOB_POSTS"; payload: JobPost[] }
-  | { type: "ADD_JOB_POST"; payload: JobPost };
+  | { type: "ADD_JOB_POST"; payload: JobPost }
+  | {
+      type: "SET_MATCHING_CANDIDATES";
+      payload: { jobId: string; candidateIds: string[] };
+    }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_ERROR"; payload: string | null };
 
 const initialState: DataState = {
   profiles: [],
   jobPosts: [],
-  loading: true,
+  matchingCandidates: {},
+  isLoading: false,
   error: null,
 };
 
 function dataReducer(draft: DataState, action: DataAction) {
   switch (action.type) {
-    case "SET_LOADING":
-      draft.loading = action.payload;
-      break;
-    case "SET_ERROR":
-      draft.error = action.payload;
-      break;
     case "SET_PROFILES":
       draft.profiles = action.payload;
       break;
@@ -52,57 +52,61 @@ function dataReducer(draft: DataState, action: DataAction) {
     case "ADD_JOB_POST":
       draft.jobPosts.push(action.payload);
       break;
+    case "SET_MATCHING_CANDIDATES":
+      draft.matchingCandidates[action.payload.jobId] =
+        action.payload.candidateIds;
+      break;
+    case "SET_LOADING":
+      draft.isLoading = action.payload;
+      break;
+    case "SET_ERROR":
+      draft.error = action.payload;
+      break;
   }
 }
 
-interface DataContextType extends DataState {
+const DataContext = createContext<{
+  state: DataState;
   dispatch: React.Dispatch<DataAction>;
-}
-
-const DataContext = createContext<DataContextType | undefined>(undefined);
+} | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useImmerReducer(dataReducer, initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
+      dispatch({ type: "SET_LOADING", payload: true });
       try {
-        dispatch({ type: "SET_LOADING", payload: true });
-
         // Fetch profiles
         const profilesResponse = await fetch("/api/profiles");
-        const profilesData = await profilesResponse.json();
-
-        if (profilesData.success) {
-          dispatch({ type: "SET_PROFILES", payload: profilesData.data });
-        } else {
-          dispatch({
-            type: "SET_ERROR",
-            payload: profilesData.error || "Failed to fetch profiles",
-          });
+        if (!profilesResponse.ok) {
+          throw new Error("Failed to fetch profiles");
         }
+        const { data: profiles } = await profilesResponse.json();
+        dispatch({ type: "SET_PROFILES", payload: profiles });
 
-        // TODO: Add job posts fetching when the API is ready
-        // const jobPostsResponse = await fetch("/api/job-posts");
-        // const jobPostsData = await jobPostsResponse.json();
-        // if (jobPostsData.success) {
-        //   dispatch({ type: "SET_JOB_POSTS", payload: jobPostsData.data });
+        // TODO: Fetch job posts
+        // const jobPostsResponse = await fetch("/api/jobs");
+        // if (!jobPostsResponse.ok) {
+        //   throw new Error("Failed to fetch job posts");
         // }
-      } catch (err) {
+        // const jobPosts = await jobPostsResponse.json();
+        // dispatch({ type: "SET_JOB_POSTS", payload: jobPosts });
+      } catch (error) {
         dispatch({
           type: "SET_ERROR",
-          payload: "Failed to fetch data",
+          payload: error instanceof Error ? error.message : "An error occurred",
         });
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
       }
-    };
+    }
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
-    <DataContext.Provider value={{ ...state, dispatch }}>
+    <DataContext.Provider value={{ state, dispatch }}>
       {children}
     </DataContext.Provider>
   );
@@ -110,7 +114,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
 export function useData() {
   const context = useContext(DataContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useData must be used within a DataProvider");
   }
   return context;

@@ -11,6 +11,7 @@ export interface Experience {
 }
 
 export interface Profile {
+  id: string;
   name: string;
   title: string;
   skills: string[];

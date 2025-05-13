@@ -12,6 +12,7 @@ export async function GET() {
       // data: profiles,
       data: [
         {
+          id: "profile-1",
           name: "Viet-Tham Huynh",
           title: "Researcher at VNUHCM - University of Science",
           skills: [
@@ -77,11 +78,12 @@ export async function GET() {
             },
           ],
           extractedText:
-            "\n\n  \nContact\nwww.linkedin.com/in/hvtham\n(LinkedIn)\nTop Skills\nSoftware Development\nVirtual Reality (VR)\nAugmented Reality (AR)\nCertifications\nMachine Learning with TensorFlow\non Google Cloud Platform\nSpecialization\nLaunching into Machine Learning\nHow Google does Machine Learning\nArt and Science of Machine Learning\nFeature Engineering\nHonors-Awards\nTop 3 in Student Scientific Research\nPrize Euréka 2020\nViet-Tham Huynh\nResearcher at VNUHCM - University of Science\nHo Chi Minh City, Vietnam\nSummary\nViet-Tham Huynh is currently a researcher at Software Engineering\nLaboratory (SELab), University of Science, VNU-HCM. His research\ninterests are Augmented Reality, Virtual Reality and Mixed Reality.\nExperience\nVNUHCM - University of Science\nResearcher\nJanuary 2021 - Present (4 years 5 months)\nResearch methods in Human-Computer Interaction (HCI), Augmented Reality\n(AR), Virtual Reality (VR), Mixed Reality (MR)\nNational Institute of Informatics [Japan] 国立情報学研究所\nResearch Intern\nMarch 2024 - September 2024 (7 months)\nChiyoda, Tokyo, Japan\nCity Science Lab @ Ho Chi Minh City\nSoftware Developer\nMay 2021 - March 2024 (2 years 11 months)\nDrone Orange\nVirtual Reality & Augmented Reality Software Engineer\nOctober 2020 - January 2021 (4 months)\nAmerican Center\nTeacher Assistant\nJune 2019 - July 2019 (2 months)\nHo Chi Minh City, Vietnam\nTeaching Assistance to the Massive Open Online Course (MOOC) Web\nProgramming\nAmerican Center\nTeacher Assistant\n \nPage 1 of 2\n\n  \nJanuary 2018 - December 2018 (1 year)\nHo Chi Minh City, Vietnam\nTeaching at the Robotics Club\nEducation\nVNUHCM - University of Science\nMaster of Science - MS, Computer Science · (December 2021 - December\n2023)\nVNUHCM - University of Science\nBachelor's degree, Information Technology · (2016 - 2020)\n \nPage 2 of 2",
+            "\n\n  \nContact\nwww.linkedin.com/in/hvtham\n(LinkedIn)\nTop Skills\nSoftware Development\nVirtual Reality (VR)\nAugmented Reality (AR)\nCertifications\nMachine Learning with TensorFlow\non Google Cloud Platform\nSpecialization\nLaunching into Machine Learning\nHow Google does Machine Learning\nArt and Science of Machine Learning\nFeature Engineering\nHonors-Awards\nTop 3 in Student Scientific Research\nPrize Euréka 2020\nViet-Tham Huynh\nResearcher at VNUHCM - University of Science\nHo Chi Minh City, Vietnam\nSummary\nViet-Tham Huynh is currently a researcher at Software Engineering\nLaboratory (SELab), University of Science, VNU-HCM. His research\ninterests are Augmented Reality, Virtual Reality and Mixed Reality.\nExperience\nVNUHCM - University of Science\nResearcher\nJanuary 2021 - Present (4 years 5 months)\nResearch methods in Human-Computer Interaction (HCI), Augmented Reality\n(AR), Virtual Reality (VR), Mixed Reality (MR)\nNational Institute of Informatics [Japan] 国立情報学研究所\nResearch Intern\nMarch 2024 - September 2024 (7 months)\nChiyoda, Tokyo, Japan\nCity Science Lab @ Ho Chi Minh City\nSoftware Developer\nMay 2021 - March 2024 (2 years 11 months)\nDrone Orange\nVirtual Reality & Augmented Reality Software Engineer\nOctober 2020 - January 2021 (4 months)\nAmerican Center\nTeacher Assistant\nJune 2019 - July 2019 (2 months)\nHo Chi Minh City, Vietnam\nTeaching Assistance to the Massive Open Online Course (MOOC) Web\nProgramming\nAmerican Center\nTeacher Assistant\n \nPage 1 of 2\n\n  \nJanuary 2018 - December 2018 (1 year)\nHo Chi Minh City, Vietnam\nTeaching at the Robotics Club\nEducation\nVNUHCM - University of Science\nMaster of Science - MS, Computer Science · (December 2021 - December\n2023)\nVNUHCM - University of Science\nBachelor's degree, Information Technology · (2016 - 2020)\n \nPage 2 of 2",
           pathToResume:
             "/Users/minhtran/Work/SELAB/smarthire/backend/data/Profile1.pdf",
         },
         {
+          id: "profile-2",
           name: "Võ Huyền Trang",
           title: "Full Stack Developer",
           skills: ["React.js", "Node.js", "Web Applications"],
@@ -113,11 +115,12 @@ export async function GET() {
             },
           ],
           extractedText:
-            "\n\n  \nContact\nwww.linkedin.com/in/võ-huyền-\ntrang-5988511b9 (LinkedIn)\nTop Skills\nReact.js\nNode.js\nWeb Applications\nLanguages\nEnglish (Professional Working)\nVõ Huyền Trang\nFull-stack dev at GEO system solutions Vietnam\nHo Chi Minh City, Vietnam\nSummary\nExperienced Frontend Developer with a demonstrated history of\nworking in the information technology and services industry. Skilled\nin Web development and English. Strong engineering professional\nwith a Bachelor of Science in Computer Science focused in\nComputer Science from VNUHCM-University of Information\nTechnology. \nExperience\nGEO system solutions Vietnam\n4 years 5 months\nFull Stack Developer\nApril 2021 - Present (4 years 2 months)\nHo Chi Minh City, Vietnam\nFrontend Developer\nJanuary 2021 - April 2021 (4 months)\nHo Chi Minh City, Vietnam\nEducation\nUniversity of Information Technology\nBachelor's degree, Computer Science · (September 2016 - November 2020)\n \nPage 1 of 1",
+            "\n\n  \nContact\nwww.linkedin.com/in/võ-huyền-\ntrang-5988511b9 (LinkedIn)\nTop Skills\nReact.js\nNode.js\nWeb Applications\nLanguages\nEnglish (Professional Working)\nVõ Huyền Trang\nFull-stack dev at GEO system solutions Vietnam\nHo Chi Minh City, Vietnam\nSummary\nExperienced Frontend Developer with a demonstrated history of\nworking in the information technology and services industry. Skilled\nin Web development and English. Strong engineering professional\nwith a Bachelor of Science in Computer Science focused in\nComputer Science from VNUHCM-University of Information\nTechnology. \nExperience\nGEO system solutions Vietnam\n4 years 5 months\nFull Stack Developer\nApril 2021 - Present (4 years 2 months)\nHo Chi Minh City, Vietnam\nFrontend Developer\nJanuary 2021 - April 2021 (4 months)\nHo Chi Minh City, Vietnam\nEducation\nUniversity of Information Technology\nBachelor's degree, Computer Science · (September 2016 - November 2020)\n \nPage 1 of 1",
           pathToResume:
             "/Users/minhtran/Work/SELAB/smarthire/backend/data/Profile2.pdf",
         },
         {
+          id: "profile-3",
           name: "Thang Nguyen Tien",
           title:
             "AI Engineer - Student at University of Information Technology",
@@ -134,11 +137,12 @@ export async function GET() {
           ],
           experience: [],
           extractedText:
-            "\n\n  \nContact\nwww.linkedin.com/in/thangnt2508\n(LinkedIn)\nTop Skills\nDeep Learning\nMachine Learning\nSQL\nCertifications\nFundamentals of Agents\nSecond Finalists - SoICT Hackathon\n2024 (Track Traffic Vehicle\nDetection)  \nCertificate of Presentation\nCertificate of Sciencetific Research\nPublication \nHonors-Awards\nSecond Finalists of Ho Chi Minh AI\nChallenge 2024\nSecond Finalist of SoICT Hackathon\n2024, Track Traffic Vehicle Detection\nThang Nguyen Tien\nAI Engineer - Student at University of Information Technology\nHo Chi Minh City, Ho Chi Minh City, Vietnam\nEducation\nUniversity of Information Technology\n · (2023 - 2027)\n \nPage 1 of 1",
+            "\n\n  \nContact\nwww.linkedin.com/in/thangnt2508\n(LinkedIn)\nTop Skills\nDeep Learning\nMachine Learning\nSQL\nCertifications\nFundamentals of Agents\nSecond Finalists - SoICT Hackathon\n2024 (Track Traffic Vehicle\nDetection)  \nCertificate of Presentation\nCertificate of Sciencetific Research\nPublication \nHonors-Awards\nSecond Finalists of Ho Chi Minh AI\nChallenge 2024\nSecond Finalist of SoICT Hackathon\n2024, Track Traffic Vehicle Detection\nThang Nguyen Tien\nAI Engineer - Student at University of Information Technology\nHo Chi Minh City, Ho Chi Minh City, Vietnam\nEducation\nUniversity of Information Technology\n · (2023 - 2027)\n \nPage 1 of 1",
           pathToResume:
             "/Users/minhtran/Work/SELAB/smarthire/backend/data/Profile3.pdf",
         },
         {
+          id: "profile-4",
           name: "Thiet Su Nguyen",
           title: "AI Engineer",
           skills: [
@@ -181,7 +185,7 @@ export async function GET() {
             },
           ],
           extractedText:
-            "\n\n  \nContact\nwww.linkedin.com/in/sunt33\n(LinkedIn)\nTop Skills\nStable Diffusion\nLarge Language Models (LLM)\nOptimize AI Model\nThiet Su Nguyen\nAI Engineer at VinFast\nHo Chi Minh City, Vietnam\nExperience\nVINFAST \nAI Engineer\nMay 2025 - Present (1 month)\nHo Chi Minh City, Vietnam\nVinAI\nAI Engineer\nDecember 2024 - May 2025 (6 months)\nHo Chi Minh City, Vietnam\nILLUMINUS AI\nGenerative AI Engineer\nMarch 2024 - December 2024 (10 months)\nVietnam\nGSOFT\nAI Engineer\nAugust 2022 - March 2024 (1 year 8 months)\n235 Lý Thường Kiệt, Phường 6, Tân Bình\n \nPage 1 of 1",
+            "\n\n  \nContact\nwww.linkedin.com/in/sunt33\n(LinkedIn)\nTop Skills\nStable Diffusion\nLarge Language Models (LLM)\nOptimize AI Model\nThiet Su Nguyen\nAI Engineer at VinFast\nHo Chi Minh City, Vietnam\nExperience\nVINFAST \nAI Engineer\nMay 2025 - Present (1 month)\nHo Chi Minh City, Vietnam\nVinAI\nAI Engineer\nDecember 2024 - May 2025 (6 months)\nHo Chi Minh City, Vietnam\nILLUMINUS AI\nGenerative AI Engineer\nMarch 2024 - December 2024 (10 months)\nVietnam\nGSOFT\nAI Engineer\nAugust 2022 - March 2024 (1 year 8 months)\n235 Lý Thường Kiệt, Phường 6, Tân Bình\n \nPage 1 of 1",
           pathToResume:
             "/Users/minhtran/Work/SELAB/smarthire/backend/data/Profile4.pdf",
         },

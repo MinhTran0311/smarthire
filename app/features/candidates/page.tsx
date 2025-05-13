@@ -14,11 +14,14 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
 import { useData } from "@/app/contexts/DataContext";
 import CandidateCard from "@/components/candidates/CandidateCard";
+import { Profile } from "../../../backend/models/profile";
 
 export default function Candidates() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { profiles, loading, error } = useData();
+  const {
+    state: { profiles, isLoading: loading, error },
+  } = useData();
 
   const handleShowMore = (profileId: string) => {
     // TODO: Implement show more functionality
@@ -121,7 +124,7 @@ export default function Candidates() {
               gap: 3,
             }}
           >
-            {profiles.map((profile) => (
+            {profiles.map((profile: Profile) => (
               <CandidateCard
                 key={profile.name}
                 profile={profile}

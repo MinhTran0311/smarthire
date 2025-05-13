@@ -1,16 +1,19 @@
 "use client";
 
-import { useData } from "@/app/contexts/DataContext";
+import CandidateCard from "@/components/candidates/CandidateCard";
 import DescriptionIcon from "@mui/icons-material/Description";
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Paper,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
+import { useRef, useState } from "react";
+import { useData } from "../../../app/contexts/DataContext";
 import { JobPost } from "../../../backend/models/jobPost";
 import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
 import { useTranslation } from "../../../hooks/useTranslation";
@@ -18,29 +21,69 @@ import { useTranslation } from "../../../hooks/useTranslation";
 export default function UploadJob() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { dispatch } = useData();
+  const {
+    dispatch,
+    state: { profiles, matchingCandidates },
+  } = useData();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [lastSubmittedJobId, setLastSubmittedJobId] = useState<string | null>(
+    null
+  );
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
 
-    const newJobPost: JobPost = {
-      id: crypto.randomUUID(),
-      title: formData.get("title") as string,
-      department: formData.get("department") as string,
-      location: formData.get("location") as string,
-      description: formData.get("description") as string,
-      requirements: formData.get("requirements") as string,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    try {
+      const formData = new FormData(e.currentTarget);
+      const newJobPost: JobPost = {
+        id: crypto.randomUUID(),
+        title: formData.get("title") as string,
+        department: formData.get("department") as string,
+        location: formData.get("location") as string,
+        description: formData.get("description") as string,
+        requirements: formData.get("requirements") as string,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
 
-    // Add the new job post to the context
-    dispatch({ type: "ADD_JOB_POST", payload: newJobPost });
+      // Add job post to context
+      dispatch({ type: "ADD_JOB_POST", payload: newJobPost });
 
-    // TODO: Implement API call to save the job post
-    console.log("New job post:", newJobPost);
+      // Find matching candidates
+      const response = await fetch("/api/jobs/match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobPost: newJobPost, profiles }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to find matching candidates");
+      }
+
+      const { matchingCandidateIds } = await response.json();
+      dispatch({
+        type: "SET_MATCHING_CANDIDATES",
+        payload: { jobId: newJobPost.id, candidateIds: matchingCandidateIds },
+      });
+
+      setLastSubmittedJobId(newJobPost.id);
+      formRef.current?.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const matchedProfiles = lastSubmittedJobId
+    ? profiles.filter((profile) =>
+        matchingCandidates[lastSubmittedJobId]?.includes(profile.id)
+      )
+    : [];
 
   return (
     <Box
@@ -68,6 +111,7 @@ export default function UploadJob() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            mb: 4,
           }}
         >
           <DescriptionIcon
@@ -80,7 +124,12 @@ export default function UploadJob() {
             {t("features.uploadJob.description")}
           </Typography>
 
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
+          <Box
+            component="form"
+            ref={formRef}
+            onSubmit={handleSubmit}
+            sx={{ width: "100%" }}
+          >
             <TextField
               fullWidth
               name="title"
@@ -89,6 +138,7 @@ export default function UploadJob() {
               margin="normal"
               required
             />
+
             <TextField
               fullWidth
               name="department"
@@ -97,6 +147,7 @@ export default function UploadJob() {
               margin="normal"
               required
             />
+
             <TextField
               fullWidth
               name="location"
@@ -105,6 +156,7 @@ export default function UploadJob() {
               margin="normal"
               required
             />
+
             <TextField
               fullWidth
               name="description"
@@ -115,6 +167,7 @@ export default function UploadJob() {
               rows={4}
               required
             />
+
             <TextField
               fullWidth
               name="requirements"
@@ -125,17 +178,59 @@ export default function UploadJob() {
               rows={4}
               required
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              sx={{ mt: 3 }}
-            >
-              {t("features.uploadJob.form.submit")}
-            </Button>
+
+            {error && (
+              <Typography color="error" sx={{ mt: 2 }}>
+                {error}
+              </Typography>
+            )}
+
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                disabled={isLoading}
+                startIcon={isLoading ? <CircularProgress size={20} /> : null}
+              >
+                {isLoading
+                  ? t("features.uploadJob.form.submitting")
+                  : t("features.uploadJob.form.submit")}
+              </Button>
+            </Box>
           </Box>
         </Paper>
+
+        {matchedProfiles.length > 0 && (
+          <Paper elevation={3} sx={{ p: 4 }}>
+            <Typography variant="h4" gutterBottom>
+              {t("features.uploadJob.matchedCandidates")}
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+              {t("features.uploadJob.matchedCandidatesDescription")}
+            </Typography>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+                gap: 3,
+              }}
+            >
+              {matchedProfiles.map((profile) => (
+                <Box key={profile.id}>
+                  <CandidateCard
+                    profile={profile}
+                    onShowMore={() => {
+                      // TODO: Implement show more functionality
+                      console.log("Show more for profile:", profile.id);
+                    }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </Paper>
+        )}
       </Container>
       <FeatureNavigation />
     </Box>

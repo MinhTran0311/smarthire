@@ -14,6 +14,7 @@
   "features.uploadJob.form.description": "Job Description",
   "features.uploadJob.form.requirements": "Requirements",
   "features.uploadJob.form.submit": "Submit Job Description",
+  "features.uploadJob.form.submitting": "Finding Matching Candidates...",
   "features.candidates.title": "Browse Candidate Pool",
   "features.candidates.description": "Search and filter through your candidate database",
   "features.candidates.searchPlaceholder": "Search candidates...",
@@ -39,5 +40,7 @@
   "about.team.description": "Our team consists of experts in AI, HR, and software development, working together to create innovative solutions for modern hiring challenges.",
   "common.getStarted": "Get Started",
   "common.language": "Language",
-  "common.forgotPassword": "Forgot password?"
+  "common.forgotPassword": "Forgot password?",
+  "features.uploadJob.matchedCandidates": "Matched Candidates",
+  "features.uploadJob.matchedCandidatesDescription": "Here are the candidates that best match your job requirements:"
 }

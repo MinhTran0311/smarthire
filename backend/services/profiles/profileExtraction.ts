@@ -19,27 +19,22 @@ export async function extractTextFromPDF(pdfPath: string): Promise<string> {
   }
 }
 
+const dataDir = path.join(process.cwd(), "backend", "data");
+
 /**
  * Process all PDF files in the backend/data directory.
  */
 export async function processAllProfiles(): Promise<Profile[]> {
   try {
-    const dataDir = path.resolve(process.cwd(), "backend", "data");
     const files = await fs.readdir(dataDir);
-    const pdfFiles = files.filter((file) =>
-      file.toLowerCase().endsWith(".pdf")
-    );
-
-    if (pdfFiles.length === 0) {
-      console.log("No PDF files found in directory");
-      return [];
-    }
+    const pdfFiles = files.filter((file) => file.endsWith(".pdf"));
 
     const profiles = await Promise.all(
       pdfFiles.map(async (filename): Promise<Profile> => {
         const filePath = path.join(dataDir, filename);
         const content = await extractTextFromPDF(filePath);
         const profile = await extractProfileFromText(content);
+        profile.id = crypto.randomUUID();
         profile.pathToResume = filePath;
         return profile;
       })
@@ -56,16 +51,19 @@ export async function processAllProfiles(): Promise<Profile[]> {
  * Process a PDF from an uploaded buffer (e.g., via form submission).
  */
 export async function processUploadedPDF(
-  fileBuffer: Buffer,
+  buffer: Buffer,
   filename: string
 ): Promise<Profile> {
   try {
-    const data = await pdfParse(fileBuffer);
-    const profile = await extractProfileFromText(data.text);
-    profile.pathToResume = filename;
+    const filePath = path.join(dataDir, filename);
+    await fs.writeFile(filePath, buffer);
+    const content = await extractTextFromPDF(filePath);
+    const profile = await extractProfileFromText(content);
+    profile.id = crypto.randomUUID();
+    profile.pathToResume = filePath;
     return profile;
   } catch (error) {
-    console.error(`Error processing uploaded PDF ${filename}:`, error);
+    console.error("Error processing uploaded PDF:", error);
     throw error;
   }
 }

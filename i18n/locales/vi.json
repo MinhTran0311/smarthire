@@ -14,6 +14,7 @@
   "features.uploadJob.form.description": "Mô tả công việc",
   "features.uploadJob.form.requirements": "Yêu cầu",
   "features.uploadJob.form.submit": "Đăng tải mô tả công việc",
+  "features.uploadJob.form.submitting": "Đang tìm ứng viên phù hợp...",
   "features.candidates.title": "Duyệt danh sách ứng viên",
   "features.candidates.description": "Tìm kiếm và lọc qua cơ sở dữ liệu ứng viên",
   "features.candidates.searchPlaceholder": "Tìm kiếm ứng viên...",
@@ -39,5 +40,7 @@
   "about.team.description": "Đội ngũ của chúng tôi bao gồm các chuyên gia về AI, nhân sự và phát triển phần mềm, cùng nhau tạo ra các giải pháp đổi mới cho những thách thức tuyển dụng hiện đại.",
   "common.getStarted": "Bắt đầu",
   "common.language": "Ngôn ngữ",
-  "common.forgotPassword": "Quên mật khẩu?"
+  "common.forgotPassword": "Quên mật khẩu?",
+  "features.uploadJob.matchedCandidates": "Ứng viên phù hợp",
+  "features.uploadJob.matchedCandidatesDescription": "Đây là những ứng viên phù hợp nhất với yêu cầu công việc của bạn:"
 }
