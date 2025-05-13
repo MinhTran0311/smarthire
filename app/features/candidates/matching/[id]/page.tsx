@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { Profile } from "@/backend/models/profile";
 import CandidateProfileDetail from "@/components/candidates/CandidateProfileDetail";
 import JobDescriptionCard from "@/components/jobs/JobDescriptionCard";
+import ChatBot from "@/components/chat/ChatBot";
 import { Box, Typography } from "@mui/material";
 import { useData } from "@/app/contexts/DataContext";
 
@@ -47,6 +48,18 @@ export default function MatchingCandidateDetail() {
         {/* Right: Candidate Profile */}
         <CandidateProfileDetail candidate={candidate} />
       </Box>
+
+      {/* Chat Bot */}
+      {jobPost && (
+        <ChatBot
+          candidateInfo={candidate.extractedText || ""}
+          jobDescription={`Job Title: ${jobPost.title || ""}\nDepartment: ${
+            jobPost.department || ""
+          }\nLocation: ${jobPost.location || ""}\nDescription: ${
+            jobPost.description || ""
+          }\nRequirements: ${jobPost.requirements || ""}`}
+        />
+      )}
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   // processAllProfiles,
   processUploadedPDF,
@@ -203,12 +203,12 @@ export async function GET() {
   }
 }
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file");
 
-    if (!file) {
+    if (!file || !(file instanceof File)) {
       return NextResponse.json(
         {
           success: false,
@@ -219,7 +219,7 @@ export async function POST(request) {
     }
 
     // Check if the file is a PDF
-    if (!file.type || !file.type.includes("pdf")) {
+    if (!file.type.includes("pdf")) {
       return NextResponse.json(
         {
           success: false,
