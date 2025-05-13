@@ -24,6 +24,10 @@ type DataAction =
   | { type: "SET_JOB_POSTS"; payload: JobPost[] }
   | { type: "ADD_JOB_POST"; payload: JobPost }
   | {
+      type: "UPDATE_JOB_POST_MATCHES";
+      payload: { jobId: string; candidateIds: string[] };
+    }
+  | {
       type: "SET_MATCHING_CANDIDATES";
       payload: { jobId: string; candidateIds: string[] };
     }
@@ -50,11 +54,15 @@ function dataReducer(draft: DataState, action: DataAction) {
       draft.jobPosts = action.payload;
       break;
     case "ADD_JOB_POST":
-      draft.jobPosts.push(action.payload);
+      draft.jobPosts.unshift(action.payload);
       break;
     case "SET_MATCHING_CANDIDATES":
-      draft.matchingCandidates[action.payload.jobId] =
-        action.payload.candidateIds;
+      const jobPost = draft.jobPosts.find(
+        (job) => job.id === action.payload.jobId
+      );
+      if (jobPost) {
+        jobPost.matchedCandidates = action.payload.candidateIds;
+      }
       break;
     case "SET_LOADING":
       draft.isLoading = action.payload;

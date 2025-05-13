@@ -95,22 +95,11 @@ export async function findMatchingCandidates(
       response_format: { type: "json_object" },
     });
 
-    console.log(
-      "Job post:",
-      `${JOB_MATCHING_PROMPT}\n\nJob Description:\n${JSON.stringify(
-        jobPost
-      )}\n\nCandidates:\n${JSON.stringify(
-        candidates
-      )}\n\nMax Candidates: ${maxCandidates}`
-    );
-    console.log("Completion:", completion.choices[0].message);
-
     const content = completion.choices[0].message.content;
     if (!content) {
       throw new Error("No content received from OpenAI");
     }
     const result = JSON.parse(content);
-    console.log("Result:", result);
     return result.result;
   } catch (error) {
     console.error("Error finding matching candidates:", error);

@@ -7,4 +7,5 @@ export interface JobPost {
   requirements: string;
   createdAt: Date;
   updatedAt: Date;
+  matchedCandidates?: string[]; // Array of matched candidate IDs
 }

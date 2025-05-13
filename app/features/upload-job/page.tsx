@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useData } from "../../../app/contexts/DataContext";
 import { JobPost } from "../../../backend/models/jobPost";
@@ -31,6 +32,7 @@ export default function UploadJob() {
     null
   );
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,11 +73,14 @@ export default function UploadJob() {
       });
 
       setLastSubmittedJobId(newJobPost.id);
-      formRef.current?.reset();
+      // Wait at least 1 second to show loading spinner
+      setTimeout(() => {
+        setIsLoading(false);
+        router.push("/features/candidates/matching");
+        formRef.current?.reset();
+      }, 1000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setIsLoading(false);
     }
   };
 
