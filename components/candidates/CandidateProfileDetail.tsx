@@ -26,13 +26,12 @@ export default function CandidateProfileDetail({
 
   const handleDownloadResume = () => {
     if (candidate?.pathToResume) {
-      const link = document.createElement("a");
-      link.href = candidate.pathToResume;
-      link.download = candidate.pathToResume.split("/").pop() || "resume.pdf";
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    const link = document.createElement('a');
+    link.href = `/api/files?fileName=${encodeURIComponent(candidate.pathToResume)}`;
+    link.download = candidate.pathToResume; // Optional: lets browser name the downloaded file
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     }
   };
 

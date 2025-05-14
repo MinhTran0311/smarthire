@@ -16,11 +16,30 @@ export default function UploadCV() {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      // TODO: Implement file upload logic
-      console.log("File selected:", file.name);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/files', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('File uploaded:', result);
+        alert(`Upload successful: ${result.fileName}`);
+      } else {
+        console.error('Upload failed');
+        alert('Upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Error uploading file');
     }
   };
 
