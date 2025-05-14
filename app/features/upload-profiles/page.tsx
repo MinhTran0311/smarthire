@@ -1,45 +1,60 @@
 "use client";
 
+import { useData } from "@/app/contexts/DataContext";
+import CandidateProfileDetail from "@/components/candidates/CandidateProfileDetail";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
-  Container,
-  Typography,
-  Paper,
   Button,
+  CircularProgress,
+  Container,
+  Paper,
+  Typography,
   useTheme,
 } from "@mui/material";
-import { useTranslation } from "../../../hooks/useTranslation";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useState } from "react";
 import FeatureNavigation from "../../../components/navigation/FeatureNavigation";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 export default function UploadCV() {
   const { t } = useTranslation();
   const theme = useTheme();
-
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { dispatch } = useData();
+  const [uploadedProfile, setUploadedProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await fetch('/api/files', {
-        method: 'POST',
+      setIsLoading(true);
+      const response = await fetch("/api/files", {
+        method: "POST",
         body: formData,
       });
 
       if (response.ok) {
+        setIsLoading(false);
         const result = await response.json();
-        console.log('File uploaded:', result);
-        alert(`Upload successful: ${result.fileName}`);
+        console.log("result", result);
+        if (result.profile) {
+          console.log("result.profile", result.profile);
+          dispatch({ type: "ADD_PROFILE", payload: result.profile });
+          setUploadedProfile(result.profile);
+        }
+        alert(`Upload successful: ${result.profile?.name || file.name}`);
       } else {
-        console.error('Upload failed');
-        alert('Upload failed');
+        console.error("Upload failed");
+        alert("Upload failed");
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file');
+      console.error("Error uploading file:", error);
+      alert("Error uploading file");
     }
   };
 
@@ -51,55 +66,66 @@ export default function UploadCV() {
         py: 8,
       }}
     >
-      <Container maxWidth="md">
-        <Typography
-          variant="h2"
-          component="h1"
-          align="center"
-          gutterBottom
-          sx={{ mb: 6 }}
-        >
-          {t("features.uploadCV.title")}
-        </Typography>
-
-        <Paper
-          elevation={3}
-          sx={{
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <CloudUploadIcon
-            sx={{ fontSize: 80, color: theme.palette.primary.main, mb: 3 }}
-          />
+      {!uploadedProfile && (
+        <Container maxWidth="md">
           <Typography
-            variant="h5"
-            sx={{ mb: 2, color: theme.palette.secondary.main }}
+            variant="h2"
+            component="h1"
+            align="center"
+            gutterBottom
+            sx={{ mb: 6 }}
           >
-            {t("features.uploadCV.description")}
+            {t("features.uploadCV.title")}
           </Typography>
-          <Button
-            variant="contained"
-            component="label"
-            startIcon={<CloudUploadIcon />}
-            sx={{ mt: 2 }}
+
+          <Paper
+            elevation={3}
+            sx={{
+              p: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
           >
-            Choose File
-            <input
-              type="file"
-              hidden
-              accept=".pdf,.doc,.docx"
-              onChange={handleFileUpload}
+            <CloudUploadIcon
+              sx={{ fontSize: 80, color: theme.palette.primary.main, mb: 3 }}
             />
-          </Button>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-            Supported formats: PDF, DOC, DOCX
-          </Typography>
-        </Paper>
-      </Container>
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, color: theme.palette.secondary.main }}
+            >
+              {t("features.uploadCV.description")}
+            </Typography>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                sx={{ mt: 2 }}
+              >
+                Choose File
+                <input
+                  type="file"
+                  hidden
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileUpload}
+                />
+              </Button>
+            )}
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+              Supported formats: PDF, DOC, DOCX
+            </Typography>
+          </Paper>
+        </Container>
+      )}
+      {uploadedProfile && (
+        <Box mt={6} display="flex" justifyContent="center">
+          <CandidateProfileDetail candidate={uploadedProfile} />
+        </Box>
+      )}
       <FeatureNavigation />
     </Box>
   );

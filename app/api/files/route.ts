@@ -1,22 +1,22 @@
-import path from 'path';
-import fs from 'fs';
-import { NextResponse } from 'next/server';
-import { mkdir } from 'fs/promises';
-import Busboy from 'busboy';
-import { Readable } from 'stream';
-
+import path from "path";
+import fs from "fs";
+import { NextResponse } from "next/server";
+import { mkdir } from "fs/promises";
+import Busboy from "busboy";
+import { Readable } from "stream";
+import { processUploadedPDF } from "@/backend/services/profiles/profileExtraction";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const fileName = searchParams.get('fileName');
+  const fileName = searchParams.get("fileName");
 
   if (!fileName) {
-    return new Response('File name is required', { status: 400 });
+    return new Response("File name is required", { status: 400 });
   }
 
   // Prevent path traversal by sanitizing the file name
   const safeFileName = path.basename(fileName);
-  const filePath = path.join(process.cwd(), 'files', safeFileName); // or 'files', if that's your folder
+  const filePath = path.join(process.cwd(), "files", safeFileName); // or 'files', if that's your folder
 
   try {
     const fileBuffer = fs.readFileSync(filePath);
@@ -24,17 +24,19 @@ export async function GET(request: Request) {
     return new Response(fileBuffer, {
       status: 200,
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${safeFileName}"`,
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${safeFileName}"`,
       },
     });
   } catch (error) {
-    console.error('Error reading file:', error);
-    return new Response('File not found', { status: 404 });
+    console.error("Error reading file:", error);
+    return new Response("File not found", { status: 404 });
   }
 }
 
-function webStreamToNodeReadable(webStream: ReadableStream<Uint8Array>): Readable {
+function webStreamToNodeReadable(
+  webStream: ReadableStream<Uint8Array>
+): Readable {
   const reader = webStream.getReader();
 
   return new Readable({
@@ -54,47 +56,48 @@ export const config = {
 
 export async function POST(req: Request) {
   try {
-    const uploadDir = path.join(process.cwd(), '/files');
+    const uploadDir = path.join(process.cwd(), "/files");
     await mkdir(uploadDir, { recursive: true });
 
     const nodeReadable = webStreamToNodeReadable(req.body!);
     const busboy = Busboy({ headers: Object.fromEntries(req.headers) });
 
-    const result = await new Promise<{ fileUrl: string }>((resolve, reject) => {
-      let fileUrl = '';
-      const fileWrites: Promise<void>[] = [];
+    const result = await new Promise<{ profile: any }>((resolve, reject) => {
+      let fileBuffer: Buffer[] = [];
+      let fileName = "";
 
-      busboy.on('file', (fieldname, file, filename) => {
-        const savePath = path.join(uploadDir,`${filename.filename}`);
-        fileUrl = `/files/${path.basename(savePath)}`;
-        const writeStream = fs.createWriteStream(savePath);
-
-        file.pipe(writeStream);
-
-        const finished = new Promise<void>((res, rej) => {
-          writeStream.on('finish', res);
-          writeStream.on('error', rej);
+      busboy.on("file", (fieldname, file, filename) => {
+        fileName = filename.filename;
+        file.on("data", (data) => fileBuffer.push(data));
+        file.on("end", async () => {
+          // File fully read
         });
-
-        fileWrites.push(finished);
       });
 
-      busboy.on('finish', async () => {
-        await Promise.all(fileWrites);
-        resolve({ fileUrl });
+      busboy.on("finish", async () => {
+        try {
+          const buffer = Buffer.concat(fileBuffer);
+          const profile = await processUploadedPDF(buffer, fileName);
+          resolve({ profile });
+        } catch (err) {
+          reject(err);
+        }
       });
 
-      busboy.on('error', reject);
-
+      busboy.on("error", reject);
       nodeReadable.pipe(busboy);
     });
 
     return NextResponse.json({
-      message: 'File uploaded successfully',
+      message: "File uploaded and processed successfully",
+      ok: true,
       ...result,
     });
   } catch (err: any) {
-    console.error('Upload error:', err);
-    return NextResponse.json({ error: 'Upload failed', details: err.message }, { status: 500 });
+    console.error("Upload error:", err);
+    return NextResponse.json(
+      { error: "Upload failed", details: err.message },
+      { status: 500 }
+    );
   }
 }

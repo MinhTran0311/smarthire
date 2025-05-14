@@ -68,5 +68,9 @@
   "candidate.aboutMe": "About Me",
   "candidate.noExperience": "No experience listed.",
   "candidate.noEducation": "No education listed.",
-  "candidate.noSkills": "No skills listed."
+  "candidate.noSkills": "No skills listed.",
+  "features.uploadCV.uploadSuccess": "Upload successful: {{name}}",
+  "features.uploadCV.uploadFailed": "Upload failed. Please try again.",
+  "features.uploadCV.chooseFile": "Choose File",
+  "features.uploadCV.supportedFormats": "Supported formats: PDF, DOC, DOCX"
 }

@@ -21,7 +21,7 @@ export default function Candidates() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
-  
+
   const {
     state: { profiles, isLoading: loading, error },
   } = useData();
@@ -128,7 +128,7 @@ export default function Candidates() {
           >
             {profiles.map((profile: Profile) => (
               <CandidateCard
-                key={profile.name}
+                key={profile.id}
                 profile={profile}
                 onShowMore={() => handleShowMore(profile.id)}
               />

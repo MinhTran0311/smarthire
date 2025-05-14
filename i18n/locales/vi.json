@@ -68,5 +68,9 @@
   "candidate.aboutMe": "Giới thiệu bản thân",
   "candidate.noExperience": "Chưa có kinh nghiệm.",
   "candidate.noEducation": "Chưa có thông tin học vấn.",
-  "candidate.noSkills": "Chưa có kỹ năng nào."
+  "candidate.noSkills": "Chưa có kỹ năng nào.",
+  "features.uploadCV.uploadSuccess": "Tải lên thành công: {{name}}",
+  "features.uploadCV.uploadFailed": "Tải lên thất bại. Vui lòng thử lại.",
+  "features.uploadCV.chooseFile": "Chọn tệp",
+  "features.uploadCV.supportedFormats": "Định dạng hỗ trợ: PDF, DOC, DOCX"
 }
