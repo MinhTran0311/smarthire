@@ -2,7 +2,7 @@
 
 import { Card, CardContent, Typography, Avatar, Box, Chip, Stack, IconButton, Button } from '@mui/material';
 import { CancelOutlined, CheckCircleOutlineOutlined } from '@mui/icons-material';
-import { Education, Profile } from '@/backend/models/profile';
+import { Profile } from '@/backend/models/profile';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export const ProfileSelection = ({ candidate, onViewProfile, onAccept, onReject }: { candidate: Profile, onViewProfile: () => void, onAccept: () => void, onReject: () => void }) => {
