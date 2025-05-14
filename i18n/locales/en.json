@@ -6,7 +6,7 @@
   "navigation.login": "Login",
   "features.uploadCV.title": "Upload Candidate CV",
   "features.uploadCV.description": "Upload and manage candidate CVs in various formats",
-  "features.uploadJob.title": "Upload Job Description",
+  "features.uploadJob.title": "Job Post",
   "features.uploadJob.description": "Create and manage detailed job descriptions",
   "features.uploadJob.form.title": "Job Title",
   "features.uploadJob.form.department": "Department",

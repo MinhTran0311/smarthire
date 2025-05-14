@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Container, Typography, useTheme } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useData } from "../../../contexts/DataContext";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -18,7 +13,6 @@ export default function MatchingCandidates() {
   const theme = useTheme();
   const router = useRouter();
   const { state, dispatch } = useData();
-  const [showConfirmDialog, setShowConfirmDialog] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const currentJobPost = state.jobPosts[0]; // Assuming we're working with the first job post
@@ -27,19 +21,27 @@ export default function MatchingCandidates() {
     (profile) => profile.id === matchedCandidates[currentIndex]
   );
 
-  const handleStart = () => {
-    setShowConfirmDialog(false);
-  };
-
   const handleReject = () => {
     if (currentIndex < matchedCandidates.length - 1) {
       setCurrentIndex(currentIndex + 1);
+    } else {
+      // No more candidates, redirect to browse candidates with job post filter
+      router.push(`/features/candidates?jobPostId=${currentJobPost.id}`);
     }
   };
 
   const handleAccept = () => {
     if (currentIndex < matchedCandidates.length - 1) {
+      dispatch({
+        type: "ACCEPT_JOB_POST_MATCHES",
+        payload: {
+          jobId: currentJobPost.id,
+          candidateId: currentCandidate?.id ?? "",
+        },
+      });
       setCurrentIndex(currentIndex + 1);
+    } else {
+      router.push(`/features/candidates?jobPostId=${currentJobPost.id}`);
     }
   };
 
@@ -47,19 +49,6 @@ export default function MatchingCandidates() {
     if (currentCandidate) {
       router.push(`/features/candidates/matching/${currentCandidate.id}`);
     }
-  };
-
-  const handleSaveMatches = () => {
-    // if (currentJobPost) {
-    //   dispatch({
-    //     type: "UPDATE_JOB_POST_MATCHES",
-    //     payload: {
-    //       jobId: currentJobPost.id,
-    //       candidateIds: state.profiles.map((profile) => profile.id),
-    //     },
-    //   });
-    //   router.push("/features/job-posts");
-    // }
   };
 
   if (!currentCandidate) {
@@ -87,11 +76,14 @@ export default function MatchingCandidates() {
         >
           {currentJobPost && <JobDescriptionCard jobPost={currentJobPost} />}
 
-          <ProfileSelection candidate={currentCandidate} onViewProfile={handleViewProfile} onAccept={handleAccept} onReject={handleReject}/>
-
+          <ProfileSelection
+            candidate={currentCandidate}
+            onViewProfile={handleViewProfile}
+            onAccept={handleAccept}
+            onReject={handleReject}
+          />
         </Box>
       </Container>
     </Box>
-    
   );
 }

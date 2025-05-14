@@ -1,6 +1,7 @@
 import { Education, Experience, Profile } from "@/backend/models/profile";
 import { useTranslation } from "@/hooks/useTranslation";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DownloadIcon from "@mui/icons-material/Download";
 import {
   Accordion,
   AccordionDetails,
@@ -9,6 +10,7 @@ import {
   Box,
   Button,
   Chip,
+  IconButton,
   Paper,
   Typography,
   useTheme,
@@ -26,12 +28,14 @@ export default function CandidateProfileDetail({
 
   const handleDownloadResume = () => {
     if (candidate?.pathToResume) {
-    const link = document.createElement('a');
-    link.href = `/api/files?fileName=${encodeURIComponent(candidate.pathToResume)}`;
-    link.download = candidate.pathToResume; // Optional: lets browser name the downloaded file
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const link = document.createElement("a");
+      link.href = `/api/files?fileName=${encodeURIComponent(
+        candidate.pathToResume
+      )}`;
+      link.download = candidate.pathToResume; // Optional: lets browser name the downloaded file
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -56,14 +60,16 @@ export default function CandidateProfileDetail({
             {candidate.title}
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ minWidth: 200, fontSize: 18, py: 1.5, maxHeight: 50 }}
-          onClick={handleDownloadResume}
-        >
-          {t("actions.downloadResume")}
-        </Button>
+        <Box sx={{ flexShrink: 0, ml: "auto" }}>
+          <IconButton
+            color="secondary"
+            sx={{ fontSize: 28 }}
+            onClick={handleDownloadResume}
+            aria-label={t("actions.downloadResume")}
+          >
+            <DownloadIcon fontSize="large" />
+          </IconButton>
+        </Box>
       </Box>
 
       <Box

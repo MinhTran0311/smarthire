@@ -23,4 +23,5 @@ export interface Profile {
   experience: Experience[];
   pathToResume: string;
   extractedText: string;
+  selectedJobPostIds: string[];
 }

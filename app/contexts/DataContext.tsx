@@ -1,10 +1,5 @@
 "use client";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { Profile } from "../../backend/models/profile";
 import { JobPost } from "../../backend/models/jobPost";
 import { useImmerReducer } from "use-immer";
@@ -31,7 +26,11 @@ type DataAction =
       payload: { jobId: string; candidateIds: string[] };
     }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: string | null };
+  | { type: "SET_ERROR"; payload: string | null }
+  | {
+      type: "ACCEPT_JOB_POST_MATCHES";
+      payload: { jobId: string; candidateId: string };
+    };
 
 const initialState: DataState = {
   profiles: [],
@@ -68,6 +67,18 @@ function dataReducer(draft: DataState, action: DataAction) {
       break;
     case "SET_ERROR":
       draft.error = action.payload;
+      break;
+    case "ACCEPT_JOB_POST_MATCHES":
+      const jobId = draft.jobPosts.find(
+        (job) => job.id === action.payload.jobId
+      )?.id;
+      const candidate = draft.profiles.find(
+        (profile) => profile.id === action.payload.candidateId
+      );
+      if (candidate && jobId) {
+        if (!candidate.selectedJobPostIds) candidate.selectedJobPostIds = [];
+        candidate.selectedJobPostIds.push(jobId);
+      }
       break;
   }
 }
