@@ -10,7 +10,7 @@ export const ProfileSelection = ({ candidate, onViewProfile, onAccept, onReject 
     const { t } = useTranslation();
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10rem' }}>
-            <Card sx={{ width: 350, height: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
+            <Card sx={{ width: 400, height: 450, display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
                 <Box
                     sx={{
                         height: '33%',
@@ -45,16 +45,14 @@ export const ProfileSelection = ({ candidate, onViewProfile, onAccept, onReject 
                         {yearsOfExperience} years in the industry
                     </Typography>
                     {candidate.education && candidate.education.length > 0 ? (
-                        candidate.education.map((edu: Education, idx: number) => (
-                            <Box key={idx} sx={{ mb: 2, mt: 2 }}>
-                                <Typography variant='body2' color='text.secondary'>
-                                    {edu.degree} @ {edu.institution}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {edu.graduationYear}
-                                </Typography>
-                            </Box>
-                        ))
+                        <Box sx={{ mb: 2, mt: 2 }}>
+                            <Typography variant='body2' color='text.secondary'>
+                                {candidate.education[0].degree} @ {candidate.education[0].institution}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {candidate.education[0].graduationYear}
+                            </Typography>
+                        </Box>
                     ) : (
                         <Typography variant="body2" color="text.secondary">
                             {t("candidate.noEducation")}
